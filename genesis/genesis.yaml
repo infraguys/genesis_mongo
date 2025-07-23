@@ -1,0 +1,31 @@
+# Build section. It specifies the build process of the project
+build:
+  
+  # Dependencies of the project
+  deps:
+    # Target path in the image
+    - dst: /opt/genesis_mongo
+      # Local path
+      path:
+        src: ../../genesis_mongo
+  
+  # List of elements in the project
+  elements:
+    # List of images in the element
+    - images:
+      - name: genesis-mongo
+        format: raw
+        envs:
+          - GEN_USER_PASSWD
+        
+        # OS profile for the image
+        profile: genesis_custom
+
+        # Provisioning script
+        script: images/install.sh
+        
+        # Override image build parameters, for instance Packer parameters
+        override:
+          base_image_url: "http://repository.genesis-core.tech:8081/genesis-base/0.0.3/genesis-base.qcow2"
+          base_image_checksum: "file:http://repository.genesis-core.tech:8081/genesis-base/0.0.3/SHA256SUMS"
+          disk_size: "6G"
